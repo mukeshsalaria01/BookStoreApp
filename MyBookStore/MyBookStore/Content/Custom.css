@@ -1,0 +1,17 @@
+﻿/*#region custom css by mukesh*/
+#txtSearch {
+    height: 95%;
+}
+
+#btnSearch {
+    margin: 10px;
+}
+
+.checkbox {
+    margin: -20px 0 0 180px !important;
+    -ms-transform: scale(2);
+    -moz-transform: scale(2);
+    -webkit-transform: scale(1.7);
+    -o-transform: scale(2);
+}
+/*#endregion*/

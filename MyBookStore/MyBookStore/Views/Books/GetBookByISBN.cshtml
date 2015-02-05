@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "GetBookByISBN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <textarea name="isbn" class="form-control " placeholder="Enter ISBN number..." id="txtSearch" cols="40" rows="6">
+             </textarea>
+            <button type="submit" class="btn btn-primary" id="btnSearch" value="Search">Search ISBN</button>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Search Results</h1>
+            <div class="row placeholders">
+                <h2 id="message" class="hidden">Processing...it might take some time.</h2>
+            </div>
+            <div class="table-responsive">
+                <div id="data"></div>
+                <table id="tbl-Books" class="table table-striped">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSearch').click(function () {
+            $('#message').removeClass('hidden');
+            var data = [];
+            var lines = $('#txtSearch').val().split('\n');
+            for (var i = 0; i < lines.length; i++) {
+                //starting braces to json object
+                data.push("{");
+                data.push("#ISBN" + ":" + "\"" + lines[i] + "\"");
+                data.push("#}");
+            }
+
+            if (data.length > 0) {
+                var jsonData = "[" + data + "]";
+                jsonData = jsonData.replace(/\,#/g, "");
+            }
+            var row;
+            // hit ajax to send ISBN no to controller method
+            $.ajax({
+                url: '@Url.Action("GetBookByIsbn", "Books")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify({ jsonString: jsonData }),
+                success: function (response) {
+                    $('#message').addClass('hidden');
+                    for (var key in response) {
+                        var value = response[key];
+                        var isbn = $.trim(value.ISBN);
+                        var checkStatus = value.Checked;
+                        //on the key value add the row and column
+                        if (key == 0 || key % 3 == 0) {
+                            row = $("<tr><td><img src=" + value.ImageUrl + " alt=''style='width: 200px; max-width:100%;' />"
+                                 + "<br />"
+                                 + "<input class='checkbox' type='checkbox' onClick='saveCheck(" + isbn + ")' id=" + $.trim(value.ISBN) + " />"
+                                 + "<br />" + "BookTitle : " + value.Titlte
+                                 + "<br />" + "BookId    :    " + value.BookId
+                                 + "<br />" + "Book ISBN : " + value.ISBN
+                                 + "</td></tr>");
+
+                            $('#tbl-Books').append(row);
+                            if (checkStatus) {
+                                $('#' + isbn).prop('checked', true);
+                            }
+                        }
+                        else {
+                            //create a table data
+                            var tableData = $("<td><img src=" + value.ImageUrl + " alt='' style='width:200px;max-width:100%;' />"
+                                + "<br />" + "<input class='checkbox' type='checkbox'" + "onClick='saveCheck(" + isbn + ")' id=" + value.ISBN + "  />"
+                                + "<br />" + "BookTitle  :" + value.Titlte
+                                + "<br />" + "BookId     :" + value.BookId
+                                + "<br />" + "BookISBN   :" + value.ISBN
+                                + "</td>");
+                            row.append(tableData); //append the table data to the last created row
+                            if (checkStatus) {
+                                $('#' + isbn).prop('checked', true);
+                            }
+                        }
+                    }
+                },
+                error: function () {
+                    $('#message').addClass('hidden');
+                    var err = "There is something wrong, Try again!";
+                    alert(err);
+                }
+
+            });
+        });
+
+        // ajax hit on check box select event to  update checked status in databsae
+        window.saveCheck = function (isbn) {
+            var id = isbn;
+            var check = $('#' + isbn).is(":checked");
+            $.ajax({
+                url: "Books/SaveChecked",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify({ id: id, checkStatus: check }),
+                success: function () {
+                    alert("saved successfully!");
+                },
+                error: function () {
+                    var err = "There is something wrong, Try again!";
+                    alert(err);
+                }
+            });
+        };
+    });
+</script>

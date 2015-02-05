@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyBookStoreModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MyBookStoreEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Books" EntityType="MyBookStoreModel.Book" />
+  </EntityContainer>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ISBN" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="BookId" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Titlte" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Descripton" MaxLength="850" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Author" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="Price" Precision="18" Scale="0" />
+    <Property Type="String" Name="ImageUrl" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="ReleaseDate" Precision="3" />
+    <Property Type="String" Name="Publisher" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="ExpectedDeliveryDate" Precision="3" />
+    <Property Type="Boolean" Name="Checked" />
+    <Property Type="DateTime" Name="DateCreated" Precision="3" />
+    <Property Type="String" Name="ModifyBy" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="DateModified" Precision="3" />
+    <Property Type="Boolean" Name="IsDeleted" />
+  </EntityType>
+</Schema>

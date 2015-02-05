@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyBookStoreModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MyBookStoreModelStoreContainer">
+    <EntitySet Name="Books" EntityType="MyBookStoreModel.Store.Books" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="Books">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ISBN" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="BookId" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Titlte" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Descripton" Type="varchar" Nullable="true" MaxLength="850" />
+    <Property Name="Author" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Price" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="ImageUrl" Type="varchar" Nullable="true" MaxLength="500" />
+    <Property Name="ReleaseDate" Type="datetime" Nullable="true" />
+    <Property Name="Publisher" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="ExpectedDeliveryDate" Type="datetime" Nullable="true" />
+    <Property Name="Checked" Type="bit" Nullable="true" />
+    <Property Name="DateCreated" Type="datetime" Nullable="true" />
+    <Property Name="ModifyBy" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="DateModified" Type="datetime" Nullable="true" />
+    <Property Name="IsDeleted" Type="bit" Nullable="true" />
+  </EntityType>
+</Schema>
